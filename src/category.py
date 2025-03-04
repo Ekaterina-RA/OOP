@@ -2,21 +2,23 @@ from src.product import Product
 
 
 class Category:
-    category_count = 0  # Статический атрибут для подсчета категорий
-    product_count = 0  # Статический атрибут для подсчета товаров
+    product_count = 0  # Класс-атрибут для подсчета продуктов
 
-    def __init__(self, name: str, description: str, products=None):
-        """Класс для категории товаров"""
-
+    def __init__(self, name):
         self.name = name
-        self.description = description
-        self.products = products if products is not None else []  # Список товаров категории
-        Category.category_count += 1  # Увеличиваем счетчик категорий
-        Category.product_count += len(self.products)
+        self.__products = []  # Приватный атрибут для хранения списка продуктов
 
-    def add_product(self, product: Product):
-        self.products.append(product)  # Добавление товара в категорию
-        Category.product_count += 1  # Увеличиваем счетчик товаров
+    def add_product(self, product):
+        """Добавляет продукт в категорию и увеличивает счетчик продуктов."""
+        if isinstance(product, Product):
+            self.__products.append(product)  # Добавляем продукт в список
+            Category.product_count += 1  # Увеличиваем счетчик продуктов
+        else:
+            raise ValueError("Только объекты класса Product добавляются.")
 
-    def category(self):
-        return f"Category(name={self.name}, description={self.description}, products={self.products})"
+    @property
+    def products(self):
+        """Геттер для получения списка продуктов в виде строки."""
+        return "\n".join(
+            f"{product.name}, {product.price} руб. Остаток: {product.rest} шт." for product in self.__products
+        )

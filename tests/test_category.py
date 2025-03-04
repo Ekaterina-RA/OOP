@@ -1,59 +1,38 @@
-import pytest
-
 from src.category import Category
 from src.product import Product
 
 
-@pytest.fixture(autouse=True)
-def reset_category_count():
-    """Сброс статических атрибутов перед каждым тестом."""
-    Category.category_count = 0
-    Category.product_count = 0
-
-
-def test_category_initialization():
-    """Тестирование корректности инициализации объекта Category"""
-    category = Category(
-        "Смартфоны",
-        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-    )
-    assert category.name == "Смартфоны"
-    assert (
-        category.description
-        == "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни"
-    )
-    assert Category.category_count == 1  # Проверяем, что счетчик категорий увеличился
-
-
 def test_add_product():
-    """Тестирование добавления продукта в категорию"""
-    category = Category(
-        "Смартфоны",
-        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-    )
-    product = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+    category = Category("Смартфон")
+    product = Product("Samsung Galaxy S23 Ultra", 180000.0, "256GB, Серый цвет, 200MP камера", 5)
 
     category.add_product(product)
-
-    assert len(category.products) == 1  # Проверяем, что продукт добавлен
-    assert category.products[0] == product  # Проверяем, что добавленный продукт правильный
-    assert Category.product_count == 1  # Проверяем, что счетчик товаров увеличился
+    assert Category.product_count == 1, "Ошибка: Счетчик продуктов должен увеличиться на 1."
+    print("test_add_product passed!")
 
 
-def test_multiple_categories():
-    """Тестирование создания нескольких категорий"""
-    category1 = Category("Смартфоны", "Категория для смартфонов")
-    category2 = Category("Телевизоры", "Для просмотра телепередач")
+def test_add_invalid_product():
+    category = Category("Смартфоны")
 
-    assert Category.category_count == 2  # Проверяем, что счетчик категорий увеличился
+    try:
+        category.add_product("Некорректный продукт")
+    except ValueError as e:
+        assert str(e) == "Только объекты класса Product добавляются.", "Ошибка: Неверное сообщение об ошибке."
+    else:
+        assert False, "Ошибка: Исключение не было вызвано при добавлении некорректного продукта."
+
+    print("test_add_invalid_product passed!")
 
 
-def test_product_count_in_category():
-    """Тестирование подсчета товаров в категории"""
-    category = Category("Смартфоны", "Категория для смартфонов")
-    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
-    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+def test_products_property():
+    category = Category("Смартфоны")
+    product1 = Product("Смартфон", 180000.0, "Samsung Galaxy S23 Ultra", 5)
+    product2 = Product("Телевизор 55 QLED 4K", 123000.0, "Фоновая подсветка", 7)
+
     category.add_product(product1)
     category.add_product(product2)
-    assert len(category.products) == 2  # Проверяем, что в категории два продукта
-    assert Category.product_count == 2  # Проверяем, что счетчик товаров увеличился
+
+    expected_output = "Смартфон, 180000.0 руб. Остаток: 5 шт.\nТелевизор 55 QLED 4K, 123000.0 руб. Остаток: 7 шт."
+    assert category.products == expected_output, "Ошибка: Неверный вывод списка продуктов."
+
+    print("test_products_property passed!")

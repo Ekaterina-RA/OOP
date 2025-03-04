@@ -1,17 +1,40 @@
 class Product:
-    def __init__(self, name, description, price, quantity):
-        """Класс продукты"""
+    def __init__(self, name, price, description, rest):
         name: str
-        description: str
         price: float
-        quantity: int
+        description: str
+        rest: int
+        self.name = name
+        self.__price = price
+        self.description = description
+        self.rest = rest
 
-        self.name = name  # Название товара
-        self.description = description  # Описание товара
-        self.price = price  # Цена товара
-        self.quantity = quantity  # Количество в наличии
+    def __list_of_products__(self):
+        return f"{self.name}, {self.price} руб. Остаток: {self.rest} шт."
 
-    def products(self):
-        return (
-            f"Product(name={self.name}, description={self.description}, price={self.price}, quantity={self.quantity})"
-        )
+    @property
+    def price(self):
+        """Геттер для получения цены."""
+        return self.__price
+
+    @price.setter
+    def price(self, new_price):
+        """Сеттер для установки новой цены с проверкой."""
+        if new_price > 0:
+            self.__price = new_price
+        else:
+            print("Цена не должна быть нулевая или отрицательная")
+
+    @classmethod
+    def new_product(cls, product_info):
+        """Класс-метод для создания нового продукта из словаря."""
+        name = product_info.get("name")
+        price = product_info.get("price")
+        description = product_info.get("description")
+        rest = product_info.get("rest")
+
+        return cls(name, price, description, rest)
+
+    def __product_info__(self):
+        """Метод для отображения информации о продукте."""
+        return f"{self.name}, {self.price} руб. Остаток: {self.rest} шт."
