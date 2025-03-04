@@ -5,6 +5,7 @@ class Category:
     product_count = 0  # Класс-атрибут для подсчета продуктов
 
     def __init__(self, name):
+        name: str
         self.name = name
         self.__products = []  # Приватный атрибут для хранения списка продуктов
 
@@ -19,6 +20,9 @@ class Category:
     @property
     def products(self):
         """Геттер для получения списка продуктов в виде строки."""
-        return "\n".join(
-            f"{product.name}, {product.price} руб. Остаток: {product.rest} шт." for product in self.__products
-        )
+        return "\n".join(str(product) for product in self.__products)
+
+    def __str__(self):
+        """Строковое представление категории с количеством продуктов."""
+        total_products = sum(product.rest for product in self.__products)  # Суммируем остатки всех продуктов
+        return f"{self.name}, количество продуктов: {total_products} шт."
