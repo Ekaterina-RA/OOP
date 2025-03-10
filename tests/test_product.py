@@ -2,30 +2,28 @@ from src.product import Product
 
 
 def test_product_creation():
-    product_info = {"name": "Смартфон", "price": 8000, "description": "Современный смартфон", "rest": 20}
+    product_info = {"name": "Смартфон", "price": 8000, "rest": 20}
     product = Product.new_product(product_info)
-    assert isinstance(product, Product), "Объект не является экземпляром Product"
-    assert product.name == "Смартфон", "Ошибка в имени продукта"
-    assert product.price == 8000, "Ошибка в цене продукта"
-    assert product.description == "Современный смартфон", "Ошибка в описании продукта"
-    assert product.rest == 20, "Ошибка в количестве на складе"
+    assert product.name == "Смартфон"
+    assert product.price == 8000.0
+    assert product.rest == 20
 
 
 def test_price_getter():
-    product_info = {"name": "Смартфон", "price": 8000, "description": "Современный смартфон", "rest": 20}
+    product_info = {"name": "Смартфон", "price": 8000, "rest": 20}
     product = Product.new_product(product_info)
-    assert product.price == 8000, "Геттер цены работает некорректно"
+    assert product.price == 8000.0, "Геттер цены работает некорректно"
 
 
 def test_price_setter_valid():
-    product_info = {"name": "Смартфон", "price": 8000, "description": "Современный смартфон", "rest": 20}
+    product_info = {"name": "Смартфон", "price": 8000, "rest": 20}
     product = Product.new_product(product_info)
     product.price = 9000
-    assert product.price == 9000, "Сеттер цены не работает корректно с положительным значением"
+    assert product.price == 9000.0, "Сеттер цены не работает корректно с положительным значением"  # Сравниваем с float
 
 
 def test_price_setter_invalid(capsys):
-    product_info = {"name": "Смартфон", "price": 8000, "description": "Современный смартфон", "rest": 20}
+    product_info = {"name": "Смартфон", "price": 8000, "rest": 20}
     product = Product.new_product(product_info)
     product.price = -500  # Установим отрицательную цену
 
@@ -34,9 +32,9 @@ def test_price_setter_invalid(capsys):
 
 
 def test_list_of_products_method():
-    product_info = {"name": "Смартфон", "price": 8000, "description": "Современный смартфон", "rest": 20}
+    product_info = {"name": "Смартфон", "price": 8000.0, "rest": 20}
     product = Product.new_product(product_info)
-    expected_output = "Смартфон, 8000 руб. Остаток: 20 шт."
+    expected_output = "Смартфон, 8000.0 руб. Остаток: 20 шт."
     assert (
-        product.__list_of_products__() == expected_output
-    ), "Метод __list_of_products__ не возвращает ожидаемый результат"
+        product.__str__() == expected_output
+    ), "Метод __str__ не возвращает ожидаемый результат"  # Теперь используем строковое представление

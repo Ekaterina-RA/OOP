@@ -4,7 +4,7 @@ from src.product import Product
 
 def test_add_product():
     category = Category("Смартфон")
-    product = Product("Samsung Galaxy S23 Ultra", 180000.0, "256GB, Серый цвет, 200MP камера", 5)
+    product = Product("Samsung Galaxy S23 Ultra", 180000.0, 5)
 
     category.add_product(product)
     assert Category.product_count == 1, "Ошибка: Счетчик продуктов должен увеличиться на 1."
@@ -26,8 +26,8 @@ def test_add_invalid_product():
 
 def test_products_property():
     category = Category("Смартфоны")
-    product1 = Product("Смартфон", 180000.0, "Samsung Galaxy S23 Ultra", 5)
-    product2 = Product("Телевизор 55 QLED 4K", 123000.0, "Фоновая подсветка", 7)
+    product1 = Product("Смартфон", 180000.0, 5)
+    product2 = Product("Телевизор 55 QLED 4K", 123000.0, 7)
 
     category.add_product(product1)
     category.add_product(product2)
