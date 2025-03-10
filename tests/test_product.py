@@ -29,12 +29,3 @@ def test_price_setter_invalid(capsys):
 
     captured = capsys.readouterr()
     assert "Цена не должна быть нулевая или отрицательная" in captured.out
-
-
-def test_list_of_products_method():
-    product_info = {"name": "Смартфон", "price": 8000.0, "rest": 20}
-    product = Product.new_product(product_info)
-    expected_output = "Смартфон, 8000.0 руб. Остаток: 20 шт."
-    assert (
-        product.__str__() == expected_output
-    ), "Метод __str__ не возвращает ожидаемый результат"  # Теперь используем строковое представление

@@ -1,38 +1,36 @@
+import pytest
+
 from src.category import Category
+from src.list_of_products import LawnGrass, Smartphone
 from src.product import Product
 
 
-def test_add_product():
-    category = Category("Смартфон")
-    product = Product("Samsung Galaxy S23 Ultra", 180000.0, 5)
-
-    category.add_product(product)
-    assert Category.product_count == 1, "Ошибка: Счетчик продуктов должен увеличиться на 1."
-    print("test_add_product passed!")
-
-
-def test_add_invalid_product():
+def test_category_creation():
     category = Category("Смартфоны")
-
-    try:
-        category.add_product("Некорректный продукт")
-    except ValueError as e:
-        assert str(e) == "Только объекты класса Product добавляются.", "Ошибка: Неверное сообщение об ошибке."
-    else:
-        assert False, "Ошибка: Исключение не было вызвано при добавлении некорректного продукта."
-
-    print("test_add_invalid_product passed!")
+    assert category.name == "Смартфоны"
+    assert category.products == ""
 
 
-def test_products_property():
+def test_category_add_product():
     category = Category("Смартфоны")
-    product1 = Product("Смартфон", 180000.0, 5)
-    product2 = Product("Телевизор 55 QLED 4K", 123000.0, 7)
+    smartphone = Smartphone("iPhone 12", 80000, 10, 90, "iPhone 12", 128, "Red")
+    category.add_product(smartphone)
+    assert len(category._Category__products) == 1
+    assert category.products == str(smartphone)
+
+
+def test_category_add_invalid_product():
+    category = Category("Тестовая категория")
+    with pytest.raises(TypeError):
+        category.add_product("Не продукт")
+
+
+def test_category_product_count():
+    category = Category("Тестовая категория")
+    product1 = Product("Товар 1", 100.0, 5)
+    product2 = LawnGrass("Газонная Трава", 1500.0, 10, "Россия", 7, "Зеленый")
 
     category.add_product(product1)
     category.add_product(product2)
 
-    expected_output = "Смартфон, 180000.0 руб. Остаток: 5 шт.\nТелевизор 55 QLED 4K, 123000.0 руб. Остаток: 7 шт."
-    assert category.products == expected_output, "Ошибка: Неверный вывод списка продуктов."
-
-    print("test_products_property passed!")
+    assert category.__str__() == "Тестовая категория, количество продуктов: 15 шт."
