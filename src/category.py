@@ -5,17 +5,14 @@ class Category:
     product_count = 0  # Класс-атрибут для подсчета продуктов
 
     def __init__(self, name):
-        name: str
         self.name = name
         self.__products = []  # Приватный атрибут для хранения списка продуктов
 
     def add_product(self, product):
-        """Добавляет продукт в категорию и увеличивает счетчик продуктов."""
-        if isinstance(product, Product):
-            self.__products.append(product)  # Добавляем продукт в список
-            Category.product_count += 1  # Увеличиваем счетчик продуктов
-        else:
-            raise ValueError("Только объекты класса Product добавляются.")
+        """Добавляет продукт в категорию, проверяя его тип."""
+        if not isinstance(product, Product):
+            raise TypeError(f"Можно добавлять только продукты или их наследники, а не {type(product).__name__}.")
+        self.__products.append(product)  # Исправлено на self.__products
 
     @property
     def products(self):
