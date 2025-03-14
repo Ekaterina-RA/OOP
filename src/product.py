@@ -1,9 +1,21 @@
-class Product:
+class CreationInfoMixin:
+    def __init__(self, *args, **kwargs):
+        class_name = self.__class__.__name__
+        params = ", ".join([repr(arg) for arg in args])
+        params += ", " + ", ".join([f"{a}={b}" for a, b in kwargs.items()])
+        print(f"Реализован объект '{class_name}' с параметрами: {params}")
+
+
+class Product(CreationInfoMixin):
     def __init__(self, name, price, rest):
+        super().__init__(name, price, rest)
         self.name = name  # Название продукта
         self.price = float(price)  # Цена продукта
         self.rest = int(rest)  # Остаток продукта на складе
         self.__price = self.price  # Скрытый атрибут для цены
+
+    def __repr__(self):
+        return f"Product(name={self.name}, price={self.price}, rest={self.rest})"
 
     def __str__(self):
         """Строковое представление продукта."""
@@ -38,6 +50,6 @@ class Product:
         rest = product_info.get("rest")
         return cls(name, price, rest)
 
-    def __product_info__(self):
-        """Метод для отображения информации о продукте."""
-        return f"{self.name}, {self.price:} руб. Остаток: {self.rest} шт."
+    def get_total_value(self):
+        """Метод для получения общей стоимости остатка продукта."""
+        return self.price * self.rest
