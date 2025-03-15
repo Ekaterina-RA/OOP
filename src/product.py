@@ -1,3 +1,6 @@
+from src.base_product import BaseProduct
+
+
 class CreationInfoMixin:
     def __init__(self, *args, **kwargs):
         class_name = self.__class__.__name__
@@ -6,7 +9,7 @@ class CreationInfoMixin:
         print(f"Реализован объект '{class_name}' с параметрами: {params}")
 
 
-class Product(CreationInfoMixin):
+class Product(BaseProduct, CreationInfoMixin):
     def __init__(self, name, price, rest):
         super().__init__(name, price, rest)
         self.name = name  # Название продукта
