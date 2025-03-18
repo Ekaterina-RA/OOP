@@ -63,9 +63,3 @@ else:
     category_smartphones.add_product(smartphone_2)
     print(category_smartphones.products)
     print(Category.product_count)
-try:
-    category_smartphones.add_product("Not a product")
-except TypeError:
-    print("Возникла ошибка TypeError при добавлении не продукта")
-else:
-    print("Не возникла ошибка TypeError при добавлении не продукта")
