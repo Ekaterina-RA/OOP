@@ -23,3 +23,13 @@ class Category:
         """Строковое представление категории с количеством продуктов."""
         total_products = sum(product.rest for product in self.__products)  # Суммируем остатки всех продуктов
         return f"{self.name}, количество продуктов: {total_products} шт."
+
+    def average_price(self):
+        """Метод для подсчета среднего ценника всех товаров в категории."""
+        try:
+            total_price = sum(product.price * product.rest for product in self.__products)
+            total_products = sum(product.rest for product in self.__products)
+            average_price = total_price / total_products
+        except ZeroDivisionError:
+            return 0  # Если нет товаров, возвращаем 0
+        return average_price

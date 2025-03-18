@@ -11,6 +11,8 @@ class CreationInfoMixin:
 
 class Product(BaseProduct, CreationInfoMixin):
     def __init__(self, name, price, rest):
+        if rest <= 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
         super().__init__(name, price, rest)
         self.name = name  # Название продукта
         self.price = float(price)  # Цена продукта
