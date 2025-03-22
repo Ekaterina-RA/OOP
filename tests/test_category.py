@@ -34,3 +34,15 @@ def test_category_product_count():
     category.add_product(product2)
 
     assert category.__str__() == "Тестовая категория, количество продуктов: 15 шт."
+
+
+def test_average_price_no_products():
+    """Тест для случая, когда в категории нет продуктов."""
+    category_1 = Category("Тестовая категория")
+    assert category_1.average_price() == 0
+
+
+def test_average_price_with_zero_rest():
+    """Тест для случая, когда в категории есть продукты, но их остаток равен нулю."""
+    category = Category("Тестовая категория")
+    assert category.average_price() == 0

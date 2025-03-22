@@ -63,3 +63,20 @@ else:
     category_smartphones.add_product(smartphone_2)
     print(category_smartphones.products)
     print(Category.product_count)
+
+if __name__ == "__main__":
+    try:
+        product_invalid = Product("Бракованный товар", 120000, 10)
+    except ValueError as e:
+        print(
+            "Возникла ошибка ValueError, прерывающая работу программы при попытке добавить продукт с нулевым количеством"
+        )
+    else:
+        print("Не возникла ошибка ValueError при попытке добавить продукт с нулевым количеством")
+
+    product1 = Product("Samsung Galaxy S23 Ultra", 180000.0, 5)
+    product2 = Product("Iphone 15", 210000.0, 8)
+    product3 = Product("Xiaomi Redmi Note 11", 31000.0, 14)
+
+    category_empty = Category([])
+    print(category_empty.average_price())

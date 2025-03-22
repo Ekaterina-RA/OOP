@@ -1,3 +1,5 @@
+import pytest
+
 from src.product import Product
 
 
@@ -53,3 +55,23 @@ def test_price_setter_invalid(capsys):
 
     captured = capsys.readouterr()
     assert "Цена не должна быть нулевая или отрицательная" in captured.out
+
+
+def test_product_initialization_valid():
+    """Тест для корректной инициализации продукта с положительным остатком."""
+    product = Product("Samsung Galaxy S23 Ultra", 180000.0, 5)
+    assert product.name == "Samsung Galaxy S23 Ultra"
+    assert product.price == 180000.0
+    assert product.rest == 5
+
+
+def test_product_initialization_zero_rest():
+    """Тест для случая, когда остаток равен нулю, должен выбрасывать ValueError."""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("Samsung Galaxy S23 Ultra", 180000.0, 0)
+
+
+def test_product_initialization_negative_rest():
+    """Тест для случая, когда остаток отрицательный, должен выбрасывать ValueError."""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("Iphone 15", 210000.0, 0)
